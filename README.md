@@ -29,14 +29,14 @@ Repo.start_link()
 Repo.query!("""
 copy (
   select * from range(1, 10000000)
-) to 'events.parquet.lz4' (
-  format parquet, compression lz4_raw
+) to 'events.parquet' (
+  format parquet, compression zstd
 )
 """)
 
 import Ecto.Query
 
-file = "events.parquet.lz4"
+file = "events.parquet"
 events_q = from e in fragment("read_parquet(?)", ^file)
 
 Repo.aggregate(:count, events_q)
