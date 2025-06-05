@@ -26,6 +26,8 @@ end
 Application.put_env(:demo, Repo, database: ":memory:")
 Repo.start_link()
 
+Repo.query!("select version()")
+
 Repo.query!("""
 copy (
   select * from range(1, 10000000)
