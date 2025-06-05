@@ -1,23 +1,23 @@
 Eh?
 
 ```sh
-brew install duckdb llvm
+brew install duckdb
 
 duckdb --version
-# v1.1.2 f680b7d08f
+# v1.3.0 71c5c07cdd
 
-clang --version
-# Homebrew clang version 19.1.2
-
-export CC=$(which clang)
-export DUXDB_CFLAGS=-std=c23
-export DUXDB_LDFLAGS=-L/opt/homebrew/opt/duckdb/lib
+brew --prefix duckdb
+# /opt/homebrew/opt/duckdb
 ```
 
 ```elixir
-Mix.install([
-  {:duxdb_ecto, [github: "ruslandoga/duxdb_ecto"]}
-])
+Mix.install([{:duxdb_ecto, github: "ruslandoga/duxdb_ecto"}],
+  force: true,
+  system_env: [
+    DUXDB_CFLAGS: "-I/opt/homebrew/opt/duckdb/include",
+    DUXDB_LDFLAGS: "-L/opt/homebrew/opt/duckdb/lib"
+  ]
+)
 
 defmodule Repo do
   use Ecto.Repo, adapter: DuxDB.Ecto, otp_app: :demo
@@ -29,22 +29,16 @@ Repo.start_link()
 Repo.query!("""
 copy (
   select * from range(1, 10000000)
-) to 'events.parquet' (
-  format parquet, compression zstd
+) to 'numbers.parquet' (
+  format parquet, compression zstd, parquet_format v2
 )
 """)
 
 import Ecto.Query
 
-file = "events.parquet"
-events_q = from e in fragment("read_parquet(?)", ^file)
+file = "numbers.parquet"
+numbers_q = from e in fragment("read_parquet(?)", ^file)
 
-Repo.aggregate(:count, events_q)
-
-Repo.all(
-  from e in events_q,
-    select: [e.time, e.value],
-    order_by: [desc: e.time],
-    limit: 10
-)
+Repo.aggregate(:count, numbers_q)
+File.rm!("numbers.parquet")
 ```
