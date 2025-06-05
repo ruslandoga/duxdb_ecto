@@ -1,6 +1,6 @@
 defmodule DuxDB.Type do
   @moduledoc """
-  Special DuckDB types for Ecto.Schema
+  Special DuckDB types for `Ecto.Schema`
 
       schema "events" do
         # field <DuckDB name>, <Ecto.Schema or DuxDB.Type name)>
@@ -18,13 +18,15 @@ defmodule DuxDB.Type do
         field :TIMESTAMP, :naive_datetime
         field :DATE, :date
         field :TIME, :time
+        # or Elixir's native interval
         field :INTERVAL, DuxDB.Type, duck: :interval
         field :HUGEINT, DuxDB.Type, duck: :hugeint
         field :UHUGEINT, DuxDB.Type, duck: :uhugeint
         field :VARCHAR, :string
-        field :BLOB, :blob
+        field :BLOB, :binary
         field :TIMESTAMP_S, :naive_datetime
-        field :TIMESTAMP_MS, :naive_datetime_usec # truncated
+        # truncated to milliseconds
+        field :TIMESTAMP_MS, :naive_datetime_usec
         field :TIMESTAMP_NS, :naive_datetime_usec
         field :UUID, :uuid
         field :TIME_TZ, DuxDB.Type, duck: :time_tz

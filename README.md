@@ -1,16 +1,15 @@
-Eh?
+Basic Ecto adapter for DuckDB.
 
 ```sh
 brew install duckdb llvm
 
 duckdb --version
-# v1.1.2 f680b7d08f
+# v1.1.3 19864453f7
 
 clang --version
-# Homebrew clang version 19.1.2
+# Homebrew clang version 19.1.6
 
 export CC=$(which clang)
-export DUXDB_CFLAGS=-std=c23
 export DUXDB_LDFLAGS=-L/opt/homebrew/opt/duckdb/lib
 ```
 

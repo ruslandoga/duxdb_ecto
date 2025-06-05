@@ -5,7 +5,7 @@ defmodule DuxDB.Ecto.MixProject do
     [
       app: :duxdb_ecto,
       version: "0.1.0",
-      elixir: "~> 1.17",
+      elixir: "~> 1.15",
       start_permanent: Mix.env() == :prod,
       deps: deps()
     ]
@@ -19,7 +19,7 @@ defmodule DuxDB.Ecto.MixProject do
     [
       {:duxdb, github: "ruslandoga/duxdb"},
       {:ecto_sql, "~> 3.12"},
-      {:db_connection, "~> 2.0"}
+      {:db_connection, "~> 2.7"}
     ]
   end
 end

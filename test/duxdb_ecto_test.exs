@@ -1,4 +1,3 @@
-defmodule DuxdDB.EctoTest do
-  use ExUnit.Case
-  doctest DuxDB.Ecto
+defmodule DuxDB.EctoTest do
+  use ExUnit.Case, async: true
 end
