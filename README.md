@@ -32,7 +32,7 @@ Repo.query!("""
 copy (
   select * from range(1, 10000000)
 ) to 'numbers.parquet' (
-  format parquet, compression zstd, parquet_format v2
+  format parquet, compression zstd, parquet_version v2
 )
 """)
 
